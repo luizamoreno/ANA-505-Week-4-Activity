@@ -1,0 +1,249 @@
+Luiza Moreno Week 4 Assignment - Re-Submission with Copy Paste Method 
+> data("Titanic")
+> Assignment <- as.data.frame(Titanic)
+> head(Assignment)
+  Class    Sex   Age Survived Freq
+1   1st   Male Child       No    0
+2   2nd   Male Child       No    0
+3   3rd   Male Child       No   35
+4  Crew   Male Child       No    0
+5   1st Female Child       No    0
+6   2nd Female Child       No    0
+> install.packages("dplyr")
+The downloaded binary packages are in
+	/var/folders/c4/hxzqwpks0bb8tkl_58j8zcdw0000gn/T//Rtmps3z8wb/downloaded_packages
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> select (Assignment, Survived,Sex)
+   Survived    Sex
+1        No   Male
+2        No   Male
+3        No   Male
+4        No   Male
+5        No Female
+6        No Female
+7        No Female
+8        No Female
+9        No   Male
+10       No   Male
+11       No   Male
+12       No   Male
+13       No Female
+14       No Female
+15       No Female
+16       No Female
+17      Yes   Male
+18      Yes   Male
+19      Yes   Male
+20      Yes   Male
+21      Yes Female
+22      Yes Female
+23      Yes Female
+24      Yes Female
+25      Yes   Male
+26      Yes   Male
+27      Yes   Male
+28      Yes   Male
+29      Yes Female
+30      Yes Female
+31      Yes Female
+32      Yes Female
+> AssignmentNewDataset <- select(Assignment, Survived, Sex)
+> select(AssignmentNewDataset, Survived, -Sex)
+Survived
+1        No
+2        No
+3        No
+4        No
+5        No
+6        No
+7        No
+8        No
+9        No
+10       No
+11       No
+12       No
+13       No
+14       No
+15       No
+16       No
+17      Yes
+18      Yes
+19      Yes
+20      Yes
+21      Yes
+22      Yes
+23      Yes
+24      Yes
+25      Yes
+26      Yes
+27      Yes
+28      Yes
+29      Yes
+30      Yes
+31      Yes
+32      Yes
+> select(AssignmentNewDataset, Survived, -Sex) 
+   Survived
+1        No
+2        No
+3        No
+4        No
+5        No
+6        No
+7        No
+8        No
+9        No
+10       No
+11       No
+12       No
+13       No
+14       No
+15       No
+16       No
+17      Yes
+18      Yes
+19      Yes
+20      Yes
+21      Yes
+22      Yes
+23      Yes
+24      Yes
+25      Yes
+26      Yes
+27      Yes
+28      Yes
+29      Yes
+30      Yes
+31      Yes
+32      Yes
+> 
+> rename(AssignmentNewDataset, gender=Sex)
+   Survived gender
+1        No   Male
+2        No   Male
+3        No   Male
+4        No   Male
+5        No Female
+6        No Female
+7        No Female
+8        No Female
+9        No   Male
+10       No   Male
+11       No   Male
+12       No   Male
+13       No Female
+14       No Female
+15       No Female
+16       No Female
+17      Yes   Male
+18      Yes   Male
+19      Yes   Male
+20      Yes   Male
+21      Yes Female
+22      Yes Female
+23      Yes Female
+24      Yes Female
+25      Yes   Male
+26      Yes   Male
+27      Yes   Male
+28      Yes   Male
+29      Yes Female
+30      Yes Female
+31      Yes Female
+32      Yes Female
+> AssignmentNewDataEdited <- mutate (Assignment, gender=sex)
+Error in `mutate()`:
+ℹ In argument: `gender = sex`.
+Caused by error:
+! object 'sex' not found
+Run `rlang::last_trace()` to see where the error occurred.
+> AssignmentNewDataEdited <- mutate (Assignment, gender=Sex)
+> 
+> males <- filter(AssignmentNewDataEdited, gender=="Male")
+> arrange(males, Freq)
+   Class  Sex   Age Survived Freq gender
+1    1st Male Child       No    0   Male
+2    2nd Male Child       No    0   Male
+3   Crew Male Child       No    0   Male
+4   Crew Male Child      Yes    0   Male
+5    1st Male Child      Yes    5   Male
+6    2nd Male Child      Yes   11   Male
+7    3rd Male Child      Yes   13   Male
+8    2nd Male Adult      Yes   14   Male
+9    3rd Male Child       No   35   Male
+10   1st Male Adult      Yes   57   Male
+11   3rd Male Adult      Yes   75   Male
+12   1st Male Adult       No  118   Male
+13   2nd Male Adult       No  154   Male
+14  Crew Male Adult      Yes  192   Male
+15   3rd Male Adult       No  387   Male
+16  Crew Male Adult       No  670   Male
+> group_by(males, gender)
+# A tibble: 16 × 6
+# Groups:   gender [1]
+   Class Sex   Age   Survived  Freq gender
+   <fct> <fct> <fct> <fct>    <dbl> <fct> 
+ 1 1st   Male  Child No           0 Male  
+ 2 2nd   Male  Child No           0 Male  
+ 3 3rd   Male  Child No          35 Male  
+ 4 Crew  Male  Child No           0 Male  
+ 5 1st   Male  Adult No         118 Male  
+ 6 2nd   Male  Adult No         154 Male  
+ 7 3rd   Male  Adult No         387 Male  
+ 8 Crew  Male  Adult No         670 Male  
+ 9 1st   Male  Child Yes          5 Male  
+10 2nd   Male  Child Yes         11 Male  
+11 3rd   Male  Child Yes         13 Male  
+12 Crew  Male  Child Yes          0 Male  
+13 1st   Male  Adult Yes         57 Male  
+14 2nd   Male  Adult Yes         14 Male  
+15 3rd   Male  Adult Yes         75 Male  
+16 Crew  Male  Adult Yes        192 Male  
+> sum(Assignment$Freq)
+[1] 2201
+> females <- filter(AssignmentNewDataEdited, gender=="Female")
+> union (males,females)
+   Class    Sex   Age Survived Freq gender
+1    1st   Male Child       No    0   Male
+2    2nd   Male Child       No    0   Male
+3    3rd   Male Child       No   35   Male
+4   Crew   Male Child       No    0   Male
+5    1st   Male Adult       No  118   Male
+6    2nd   Male Adult       No  154   Male
+7    3rd   Male Adult       No  387   Male
+8   Crew   Male Adult       No  670   Male
+9    1st   Male Child      Yes    5   Male
+10   2nd   Male Child      Yes   11   Male
+11   3rd   Male Child      Yes   13   Male
+12  Crew   Male Child      Yes    0   Male
+13   1st   Male Adult      Yes   57   Male
+14   2nd   Male Adult      Yes   14   Male
+15   3rd   Male Adult      Yes   75   Male
+16  Crew   Male Adult      Yes  192   Male
+17   1st Female Child       No    0 Female
+18   2nd Female Child       No    0 Female
+19   3rd Female Child       No   17 Female
+20  Crew Female Child       No    0 Female
+21   1st Female Adult       No    4 Female
+22   2nd Female Adult       No   13 Female
+23   3rd Female Adult       No   89 Female
+24  Crew Female Adult       No    3 Female
+25   1st Female Child      Yes    1 Female
+26   2nd Female Child      Yes   13 Female
+27   3rd Female Child      Yes   14 Female
+28  Crew Female Child      Yes    0 Female
+29   1st Female Adult      Yes  140 Female
+30   2nd Female Adult      Yes   80 Female
+31   3rd Female Adult      Yes   76 Female
+32  Crew Female Adult      Yes   20 Female
